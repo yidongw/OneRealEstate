@@ -15,6 +15,11 @@
 
  */
 
+ button a
+ {
+  color:#FFF;
+ }
+
 .card {
   font-size: .875rem;
 }
