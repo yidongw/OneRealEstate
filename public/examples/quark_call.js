@@ -14,99 +14,117 @@
   /** namespace */
   let quarkcall = {};
   quarkcall.abi = [
-      {
-        "constant": true,
-        "inputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "RecordsKeys",
-        "outputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [
-          {
-            "name": "_listingid",
-            "type": "uint256"
-          }
-        ],
-        "name": "getRecordByListingid",
-        "outputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          },
-          {
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "_listingid",
-            "type": "uint256"
-          },
-          {
-            "name": "_id",
-            "type": "uint256"
-          },
-          {
-            "name": "_documentHash",
-            "type": "string"
-          }
-        ],
-        "name": "setRecord",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "getAllRecords",
-        "outputs": [
-          {
-            "name": "",
-            "type": "uint256[]"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "countRecords",
-        "outputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      }
-    ];
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "RecordsKeys",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_listingid",
+          "type": "uint256"
+        }
+      ],
+      "name": "getRecordByListingid",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_listingid",
+          "type": "uint256"
+        },
+        {
+          "name": "_id",
+          "type": "uint256"
+        },
+        {
+          "name": "_date",
+          "type": "string"
+        },
+        {
+          "name": "_description",
+          "type": "string"
+        },
+        {
+          "name": "_documentHash",
+          "type": "string"
+        }
+      ],
+      "name": "setRecord",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getAllRecords",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "countRecords",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ];
+
+  quarkcall.listingid = 6;
 
   async function sendTx() {
 
@@ -115,7 +133,7 @@
 
     let sampleContract = web3.qkc.contract(quarkcall.abi);
 
-    let contractAddress = '0x2f3De25eD3Aa557AFc32f28b1fd164b0c77a64150Aafc85D';
+    let contractAddress = '0xfD1d2734fB822524533BDA2C2Ff5C89A69c6E9070Aafc85D';
     let sampleContractInstance = sampleContract.at(contractAddress);
 
     let shardId = '0x0Aafc85D'; // shard 29.  must include correct shard.
@@ -138,9 +156,9 @@
       }
     });
 
-    sampleContractInstance.getRecordByListingid(5, readOption, (err, result) => {
+    sampleContractInstance.getRecordByListingid(6, readOption, (err, result) => {
       if (result != null) {
-        console.log("getAllRecords: ", result[0].toNumber(), result[1]);
+        console.log("getAllRecords: ", result[0].toNumber(), result[1], result[2], result[3]);
       } else {
         console.err("getAllRecords errors");
       }
@@ -154,7 +172,8 @@
       }
     });
 
-    sampleContractInstance.setRecord(5, 5, "test2", writeOption, console.log);
+    quarkcall.listingid++;
+    sampleContractInstance.setRecord(quarkcall.listingid, quarkcall.listingid, "07052018", "description2", "ipfs2", writeOption, console.log);
 
     // Should be able to find tx ID in console.
     //await web3.qkc.sendTransaction(rawTx, console.log);
