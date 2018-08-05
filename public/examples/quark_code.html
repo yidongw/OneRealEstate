@@ -164,8 +164,16 @@
     let contractAddress = '0x2f3De25eD3Aa557AFc32f28b1fd164b0c77a64150Aafc85D';
     let sampleContractInstance = sampleContract.at(contractAddress);
 
+    let shardId = '0x0Aafc85D'; // shard 29.  must include correct shard.
     let readOption = {
-      fromFullShardId: '0x0Aafc85D',
+      fromFullShardId: shardId,
+    };
+
+    let writeOption = {
+      gas: 1000000,
+      fromFullShardId: shardId,
+      //from: web3.eth.accounts[0],
+      //value: web3.toWei(0.1, 'ether')
     };
 
     sampleContractInstance.countRecords(readOption, (err, result) => {
@@ -184,12 +192,7 @@
       }
     });
 
-    sampleContractInstance.setRecord(5, 5, "test2", {
-        gas: 1000000,
-        fromFullShardId: '0x0Aafc85D',
-        //from: web3.eth.accounts[0],
-        //value: web3.toWei(0.1, 'ether')
-      }, console.log);
+    sampleContractInstance.setRecord(5, 5, "test2", writeOption, console.log);
 
     // Should be able to find tx ID in console.
     //await web3.qkc.sendTransaction(rawTx, console.log);
