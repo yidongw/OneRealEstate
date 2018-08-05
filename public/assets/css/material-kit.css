@@ -8752,6 +8752,9 @@ a.text-dark:focus {
 .text-muted,
 .bmd-help {
   color: #6c757d !important;
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .text-hide {
