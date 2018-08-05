@@ -218,3 +218,34 @@
       }
     });
   }
+
+  async function getRecordByListingid(listingid) {
+
+    const ethAddr = web3.eth.accounts[0];
+    const qkcAddr = QuarkChain.getQkcAddressFromEthAddress(ethAddr);
+
+    let sampleContract = web3.qkc.contract(quarkcall.abi);
+
+    let contractAddress = quarkcall.contractAddress;
+    let sampleContractInstance = sampleContract.at(contractAddress);
+
+    let shardId = '0x0Aafc85D'; // shard 29.  must include correct shard.
+    let readOption = {
+      fromFullShardId: shardId,
+    };
+
+    let writeOption = {
+      gas: 1000000,
+      fromFullShardId: shardId,
+      //from: web3.eth.accounts[0],
+      //value: web3.toWei(0.1, 'ether')
+    };
+
+    sampleContractInstance.getRecordByListingid(6, readOption, (err, result) => {
+      if (result != null) {
+        console.log("getAllRecords: ", result[0].toNumber(), result[1], result[2], result[3]);
+      } else {
+        console.err("getAllRecords errors");
+      }
+    });
+  }
